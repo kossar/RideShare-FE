@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+main{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+/* footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+} */
+a.active{
+  color: lightgray;
+}
+
+.MuiCardHeader-content{
+  display: flex;
+  justify-content: space-between;
+}
+
+.MuiCardHeader-content span{
+  display: inline-flex;
+  align-items: center;
+}
+
