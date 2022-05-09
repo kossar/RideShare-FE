@@ -1,9 +1,10 @@
 export interface ILocation {
-    id: string;
-    country: string;
+    id?: string;
+    country: string | undefined;
+    province: string | undefined;
     city: string;
     address: string;
-    locationInfo: string | undefined;
+    description: string | undefined;
 
 }
 

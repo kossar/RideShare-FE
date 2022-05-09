@@ -5,6 +5,6 @@ export const CVersion = "v1/";
 export const CApiBaseUrl = ApiBaseUrl + CVersion;
 export const CLogin = "Account/Login";
 export const CRegister = "Account/Register";
-export const CTodoCategories = "TodoCategories/";
-export const CTodoPriorities = "TodoPriorities/"
-export const CTodoTasks = "TodoTasks/";
+
+//transport needs
+export const CTransportNeeds = "TransportNeeds";

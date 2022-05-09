@@ -26,7 +26,7 @@ const TransportNeedsIndex = () => {
 
   return (
     <Container maxWidth="sm" component="div">
-      <AdPageHeading title="Soovid" buttonName="Lisa soov" uri="/transportneeds/create" />
+      <AdPageHeading title="Soovid" buttonName="Tahan küüti" uri="/transportneeds/create" />
       <CardContainer />
     </Container>
   );

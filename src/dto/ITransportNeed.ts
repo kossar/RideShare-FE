@@ -1,9 +1,11 @@
+import { ILocation } from "./ILocation";
 
 export interface ITransportNeed {
-    id?: string;
-    startLocationId: string,
-    destinationLocationId: string,
-    description: string;
+    id?: string,
+    startLocation: ILocation,
+    destinationLocation: ILocation,
+    description: string | undefined;
     personCount: number;
-    userId?: string;
+    startAt: Date | null,
+    price: number | undefined,
   }

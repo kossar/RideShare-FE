@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
 const AdPageHeading = (props: {
@@ -23,7 +24,8 @@ const AdPageHeading = (props: {
               title={props.buttonName}
               variant="contained"
               size="large"
-              href={props.uri}
+              component={NavLink}
+              to={props.uri}
             >
               {props.buttonName}
             </Button>

@@ -78,7 +78,6 @@ const Login = () => {
             required
             id="login-email"
             label="E-mail"
-            aria-describedby="E-mail sisselogimiseks"
             variant="standard"
             fullWidth
             sx={{ my: 1 }}
@@ -91,7 +90,8 @@ const Login = () => {
             label="Parool"
             type="password"
             autoComplete="current-password"
-            aria-describedby="Parool sisselogimiseks"
+            aria-labelledby="Parool"
+            aria-target="login-password"
             variant="standard"
             fullWidth
             sx={{ my: 1 }}
@@ -102,8 +102,8 @@ const Login = () => {
             <FormControlLabel
               control={
                 <Checkbox
+                id="stay-loggedIn"
                   defaultChecked
-                  aria-describedby="Jää sisselogituks"
                 />
               }
               label="Jäta mind meelde"

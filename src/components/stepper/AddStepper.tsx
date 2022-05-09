@@ -8,11 +8,17 @@ import Typography from '@mui/material/Typography';
 import LocationCreateEdit from '../LocationCreateEdit';
 import VehicleCreateEdit from '../VehicleCreateEdit';
 import MainInfoCreateEdit from '../MainInfoCreateEdit';
+import { ILocation } from '../../dto/ILocation';
+import { ComponentType, Dispatch, ReactElement, SetStateAction } from 'react';
 
-const steps = ['Alguskoht', 'Sihtkoht', 'Üldandmed', 'Üle vaatamine'];
+export type AddSteperProps = {
+  steps: Array<string>, 
+  stepItem: JSX.Element,
+  activeStep: number,
+  setActiveStep: (step: number) => void;
+}
 
-export default function AddStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
+export default function AddStepper(props: AddSteperProps) {
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isStepSkipped = (step: number) => {
@@ -21,27 +27,27 @@ export default function AddStepper() {
 
   const handleNext = () => {
     let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
+    if (isStepSkipped(props.activeStep)) {
       newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+      newSkipped.delete(props.activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    props.setActiveStep(props.activeStep + 1);
     setSkipped(newSkipped);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    props.setActiveStep(props.activeStep - 1);
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    props.setActiveStep(0);
   };
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => {
+      <Stepper activeStep={props.activeStep} alternativeLabel>
+        {props.steps.map((label, index) => {
           const stepProps: { completed?: boolean } = {};
           const labelProps: {
             optional?: React.ReactNode;
@@ -56,7 +62,7 @@ export default function AddStepper() {
           );
         })}
       </Stepper>
-      {activeStep === steps.length ? (
+      {props.activeStep === props.steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             All steps completed - you&apos;re finished
@@ -68,25 +74,22 @@ export default function AddStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ m: 2 }} variant='h6' component={'h2'}>{steps[activeStep]}</Typography>
+          <Typography sx={{ m: 2 }} variant='h6' component={'h2'}>{props.steps[props.activeStep]}</Typography>
     
-          {activeStep == 0 ? (<LocationCreateEdit />) : null}
-          {activeStep == 1 ? (<LocationCreateEdit />) : null}
-          {activeStep == 2 ? (<VehicleCreateEdit />) : null}
-          {activeStep == 3 ? (<MainInfoCreateEdit />) : null}
+          {props.stepItem}
        
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
-              disabled={activeStep === 0}
+              disabled={props.activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
-              Back
+              Tagasi
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {props.activeStep === props.steps.length - 1 ? 'Lõpeta' : 'Järgmine'}
             </Button>
           </Box>
         </React.Fragment>

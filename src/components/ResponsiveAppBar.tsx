@@ -32,7 +32,14 @@ const settings = ["Profile", "Account", "Dashboard", "ut"];
 const ResponsiveAppBar = () => {
   const [isOpen, setState] = React.useState(false);
   const appState = useContext(AppContext);
-
+  const avatarText = () => {
+    if(appState.auth.token && appState.auth.firstname.length > 0 && appState.auth.lastname.length > 0){
+      var firstLetter = appState.auth.firstname.toUpperCase()[0];
+      var lastLetter = appState.auth.lastname.toUpperCase()[0];
+      return `${firstLetter}${lastLetter}`;
+    }
+    return 'XX';
+  }
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -274,7 +281,7 @@ const ResponsiveAppBar = () => {
                     gutterBottom
                     sx={{ my: 2, mr: 2, color: "white", display: "block" }}
                   >
-                    Ott
+                    {appState.auth.firstname}
                   </Typography>
                   <Avatar
                     sx={{
@@ -285,7 +292,7 @@ const ResponsiveAppBar = () => {
                       height: 35,
                     }}
                   >
-                    OK
+                    {avatarText()}
                   </Avatar>
                 </IconButton>
               </Tooltip>

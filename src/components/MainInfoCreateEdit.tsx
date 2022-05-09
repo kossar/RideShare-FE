@@ -3,8 +3,9 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from "react";
+import { ITransportNeedCreateEditProps } from "../types/ITransportNeedCreateEditProps";
 
-const MainInfoCreateEdit = () => {
+const MainInfoCreateEdit = (props: ITransportNeedCreateEditProps) => {
   const [value, setValue] = useState<Date | null>(null);
   return (
     <Box
@@ -27,7 +28,8 @@ const MainInfoCreateEdit = () => {
         variant="standard"
         fullWidth
         sx={{ my: 1 }}
-        value={1}
+        value={props.transportNeed.personCount}
+        onChange={(e) => props.setTransportNeed({...props.transportNeed, personCount: Number(e.target.value)})}
       />
       <TextField
         id="price"
@@ -38,6 +40,8 @@ const MainInfoCreateEdit = () => {
         variant="standard"
         fullWidth
         sx={{ my: 1 }}
+        value={props.transportNeed.price}
+        onChange={(e) => props.setTransportNeed({...props.transportNeed, price: Number(e.target.value)})}
       />
       <TextField
         required
@@ -49,6 +53,8 @@ const MainInfoCreateEdit = () => {
         variant="standard"
         fullWidth
         sx={{ my: 1 }}
+        value={props.transportNeed.description}
+        onChange={(e) => props.setTransportNeed({...props.transportNeed, description: e.target.value})}
       />
       <FormControl fullWidth>
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
@@ -69,9 +75,9 @@ const MainInfoCreateEdit = () => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         label="Basic example"
-        value={value}
+        value={props.transportNeed.startAt}
         onChange={(newValue) => {
-          setValue(newValue);
+          props.setTransportNeed({...props.transportNeed, startAt: newValue})
         }}
         renderInput={(params) => <TextField {...params} variant='standard'/>}
       />
