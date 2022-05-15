@@ -33,15 +33,29 @@ export class CreateInitialObjects {
             description: undefined,
             startAt: null,
             personCount: 0,
-            price: undefined
+            price: undefined,
+            isAd: true,
+        }
+    }
+
+    static initTransportOffer(): ITransportOffer {
+        return {
+            id: "",
+            startLocation: this.initLocation(),
+            destinationLocation: this.initLocation(),
+            vehicle: this.initVehicle(),
+            description: undefined,
+            startAt: null,
+            availableSeatCount: 0,
+            price: undefined,
+            isAd: true
         }
     }
 
     static initVehicle(): IVehicle {
         return {
-            id: "",
-            make: "",
-            model: "",
+            make: undefined,
+            model: undefined,
             number: ""
         }
     }

@@ -1,23 +1,49 @@
-import { Card, CardHeader, CardContent, Grid, Button } from "@mui/material";
-import { blue } from "@mui/material/colors";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Button,
+  Typography,
+  Box,
+} from "@mui/material";
+import { blue, teal } from "@mui/material/colors";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
+import { ITransportAdListItem } from "../../dto/ITransportAdListModel";
+import { ToTextHelper } from "../../helpers/ToTextHelper";
 import CardLogin from "./CardLogin";
 import CardPriceText from "./CardPriceText";
 import CardText from "./CardText";
 
-const CardContainer = () => {
+export type ITransportAdCardProps = {
+  transportAd: ITransportAdListItem;
+};
+const CardContainer = (props: ITransportAdCardProps) => {
   const appState = useContext(AppContext);
+  const color = props.transportAd.isTransportNeed ? teal[700] : blue[700];
+
+  const countText = props.transportAd.personSeatCount > 1 ? "kohta" : "koht";
+  const adTitle = props.transportAd.isTransportNeed
+    ? `Soov: ${props.transportAd.personSeatCount} ${countText}`
+    : `Pakkumine: ${props.transportAd.personSeatCount} ${countText}`;
 
   return (
     <Card sx={{ my: 2, p: 0 }}>
       <CardHeader
-        sx={{ bgcolor: blue[700], py: 1, px: 2 }}
+        sx={{
+          bgcolor: color,
+          py: 1,
+          px: 2,
+          ".MuiCardHeader-subheader": { display: { xs: "none", md: "flex" } },
+        }}
         component="div"
-        title="Soov: 1 koht"
+        title={adTitle}
         titleTypographyProps={{ color: "white", typography: "h6" }}
         color="white"
-        subheader="Lisatud: 26.04.2022"
+        subheader={`Lisatud: ${ToTextHelper.dateToText(
+          props.transportAd.createdAt
+        )}`}
         subheaderTypographyProps={{ color: "white", typography: "body2" }}
       />
 
@@ -26,10 +52,16 @@ const CardContainer = () => {
           <Grid item xs={12} md={6}>
             <CardText
               name={"Alguskoht:"}
-              content={"Tallinn, Harjumaa, Eesti"}
+              content={props.transportAd.startLocationCity}
             />
-            <CardText name={"Sihtkoht:"} content={"Tallinn, Harjumaa, Eesti"} />
-            <CardText name={"Algusaeg:"} content={"27.04.2022 15:00"} />
+            <CardText
+              name={"Sihtkoht:"}
+              content={props.transportAd.destinationLocationCity}
+            />
+            <CardText
+              name={"Algusaeg:"}
+              content={ToTextHelper.dateToText(props.transportAd.startAt)}
+            />
           </Grid>
           <Grid
             item
@@ -41,11 +73,49 @@ const CardContainer = () => {
               justifyContent: { xs: "space-between" },
             }}
           >
-            <CardPriceText name={"Hind:"} content={"10 €"} />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column" },
+                justifyContent: { xs: "flex-start", md: "flex-end" },
+              }}
+            >
+              <CardPriceText
+                name={"Hind:"}
+                content={`${props.transportAd.price} €`}
+              />
+              <Typography
+                variant="body2"
+                component={"p"}
+                mr={1}
+                sx={{ display: { xs: "flex", md: "none" } }}
+              >
+                {`Lisatud: ${ToTextHelper.dateToText(
+                  props.transportAd.createdAt
+                )}`}
+              </Typography>
+            </Box>
+
             {appState.auth.token === null ? (
               <CardLogin name="Vaatamiseks" />
             ) : (
-              <Button title="Vaata"  variant="contained" size="medium" sx={{px: 4}}>Vaata</Button>
+              <Box
+                sx={{
+                  display: { xs: "flex" },
+                  flexDirection: { xs: "column", md: "row" },
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Button
+                  title="Vaata"
+                  variant="contained"
+                  size="medium"
+                  sx={{ px: 4 }}
+                >
+                  Vaata
+                </Button>
+              </Box>
             )}
           </Grid>
         </Grid>

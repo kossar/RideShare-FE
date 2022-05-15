@@ -12,7 +12,7 @@ export default function Welcome(){
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h2" component="p" color="white">
-                RideShare
+                Tahan Küüti
               </Typography>
             </Grid>
             <Grid item xs={12}>

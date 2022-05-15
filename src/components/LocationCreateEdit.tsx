@@ -12,18 +12,20 @@ const LocationCreateEdit = (props: ILocationCreateEditProps) => {
       }}
     >
       <Typography variant="caption" component={"p"}>
-          Tärniga tähistatud väljad on kohustuslikud.
+        Tärniga tähistatud väljad on kohustuslikud.
       </Typography>
       <TextField
-        required
         id="country"
         label="Riik"
+        helperText="Tühjaks jätmisel määratakse riigiks Eesti"
         aria-describedby="Alguskoha riik"
         variant="standard"
         fullWidth
         sx={{ my: 1 }}
         value={props.location.country}
-        onChange={(e) => props.setLocation({...props.location, country: e.target.value})}
+        onChange={(e) =>
+          props.setLocation({ ...props.location, country: e.target.value })
+        }
       />
       <TextField
         id="Province"
@@ -35,33 +37,53 @@ const LocationCreateEdit = (props: ILocationCreateEditProps) => {
         fullWidth
         sx={{ my: 1 }}
         value={props.location.province}
-        onChange={(e) => props.setLocation({...props.location, province: e.target.value})}
+        onChange={(e) =>
+          props.setLocation({ ...props.location, province: e.target.value })
+        }
       />
       <TextField
         required
         id="city"
         label="Linn"
         type="text"
+        error={props.locationErrors.cityError}
+        aria-errormessage={props.locationErrors.cityErrorText}
+        helperText={
+          props.locationErrors.cityError
+            ? props.locationErrors.cityErrorText
+            : null
+        }
         autoComplete="current-city"
         aria-describedby="Linn"
         variant="standard"
         fullWidth
         sx={{ my: 1 }}
         value={props.location.city}
-        onChange={(e) => props.setLocation({...props.location, city: e.target.value})}
+        onChange={(e) =>
+          props.setLocation({ ...props.location, city: e.target.value })
+        }
       />
       <TextField
         required
         id="address"
         label="Aadress"
         type="text"
+        error={props.locationErrors.addressError}
+        aria-errormessage={props.locationErrors.addressErrorText}
+        helperText={
+          props.locationErrors.addressError
+            ? props.locationErrors.addressErrorText
+            : null
+        }
         autoComplete="current-address"
         aria-describedby="Aadress"
         variant="standard"
         fullWidth
         sx={{ my: 1 }}
         value={props.location.address}
-        onChange={(e) => props.setLocation({...props.location, address: e.target.value})}
+        onChange={(e) =>
+          props.setLocation({ ...props.location, address: e.target.value })
+        }
       />
       <TextField
         id="description"
@@ -73,7 +95,9 @@ const LocationCreateEdit = (props: ILocationCreateEditProps) => {
         fullWidth
         sx={{ my: 1 }}
         value={props.location.description}
-        onChange={(e) => props.setLocation({...props.location, description: e.target.value})}
+        onChange={(e) =>
+          props.setLocation({ ...props.location, description: e.target.value })
+        }
       />
     </Box>
   );

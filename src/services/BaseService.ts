@@ -12,7 +12,7 @@ export abstract class BaseService {
         }
     });
 
-    protected static getAxiosConfiguration(jwt?: string): AxiosRequestConfig | undefined{
+    protected static getAxiosConfiguration(jwt?: string | null): AxiosRequestConfig | undefined{
         if(!jwt) return undefined;
         const config: AxiosRequestConfig = {
             headers: {
@@ -109,7 +109,7 @@ export abstract class BaseService {
         }
     }
 
-    static async getAll<TEntity>(apiEndPoint: string, jwt?: string): Promise<IFetchResponse<TEntity[]>> {
+    static async getAll<TEntity>(apiEndPoint: string, jwt?: string | null): Promise<IFetchResponse<TEntity[]>> {
         console.log(jwt);
         try {
             let response = await this.axios.get<TEntity[]>(apiEndPoint, BaseService.getAxiosConfiguration(jwt));

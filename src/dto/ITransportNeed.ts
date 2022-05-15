@@ -8,4 +8,5 @@ export interface ITransportNeed {
     personCount: number;
     startAt: Date | null,
     price: number | undefined,
+    isAd: boolean,
   }

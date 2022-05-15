@@ -1,10 +1,14 @@
+import { ILocation } from "./ILocation";
 import { IVehicle } from "./IVehicle";
 
 export interface ITransportOffer{
     id?: string;
-    description: string | undefined;
-    price: number;
-    freeSeats: number;
-    userId: string;
-    vehicleId: string | undefined;
+    startLocation: ILocation,
+    destinationLocation: ILocation,
+    vehicle: IVehicle;
+    price: number | undefined,
+    availableSeatCount: number,
+    startAt: Date | null,
+    description: string | undefined,
+    isAd: boolean,
 }

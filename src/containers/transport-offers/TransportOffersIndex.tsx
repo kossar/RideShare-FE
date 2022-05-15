@@ -1,26 +1,34 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AdPageHeading from "../../components/AdPageHeading";
 import CardContainer from "../../components/card/CardContainer";
+import { CTransportOffers } from "../../configuration";
 import { AppContext } from "../../context/AppContext";
+import { ITransportAdListItem } from "../../dto/ITransportAdListModel";
+import { BaseService } from "../../services/BaseService";
 
 const TransportOffersIndex = () => {
   const appState = useContext(AppContext);
 
-  // const [transportNeeds, setTransportNeeds] = useState([] as ITransportNeed[]);
+  const [transportOffers, setTransportOffers] = useState(
+    [] as ITransportAdListItem[]
+  );
 
-  // const loadData = async () => {
-  //     let result = await BaseService.getAll<ITransportNeed>('TransportNeeds');
-  //     console.log(result);
+  const loadData = async () => {
+    let result = await BaseService.getAll<ITransportAdListItem>(
+      CTransportOffers,
+      appState.auth.token
+    );
+    console.log(result);
 
-  //     if (result.ok && result.data) {
-  //         setTransportNeeds(result.data)
-  //     }
-  // }
+    if (result.ok && result.data) {
+      setTransportOffers(result.data);
+    }
+  };
 
-  // useEffect(() => {
-  //     loadData();
-  // }, []);
+  useEffect(() => {
+    loadData();
+  }, []);
 
   console.log(appState);
 
@@ -28,10 +36,14 @@ const TransportOffersIndex = () => {
     <Container maxWidth="sm" component="div">
       <AdPageHeading
         title="Pakkumised"
-        buttonName="Lisa pakkumine"
-        uri="//transportoffers/create"
+        buttonName="Paku küüti"
+        uri="/transportoffers/create"
       />
-      <CardContainer />
+      <>
+        {transportOffers.map((transportOffer) => (
+          <CardContainer key={transportOffer.id} transportAd={transportOffer} />
+        ))}
+      </>
     </Container>
   );
 };

@@ -1,5 +1,9 @@
+import { ILocationValidationProps } from "../types/ILocationValidationProps";
 import { IMessages } from "../types/IMessages";
 import { IRegisterValidationProps } from "../types/IRegisterValidationProps";
+import { ITransportNeedValidationProps } from "../types/ITransportNeedValidationProps";
+import { ITransportOfferValidationProps } from "../types/ITransportOfferValidationProps";
+import { IVehicleValidationProps } from "../types/IVehicleValidationProps";
 
 export abstract class ValidationInitializer {
 
@@ -20,6 +24,45 @@ export abstract class ValidationInitializer {
             passwordConfirmationErrorText: "Parool ja parooli kinnitus ei ühti"
         }
     }
+
+    public static initialLocationValidationState(): ILocationValidationProps{
+        return {
+            anyError: false,
+            cityError: false,
+            cityErrorText: 'Linn on kohustuslik',
+            addressError: false,
+            addressErrorText: 'Aadress on kohustuslik',
+        }
+    }
+
+    public static initialTransportNeedValidationState(): ITransportNeedValidationProps{
+        return {
+            anyError: false,
+            personCountError: false,
+            personCountErrorText: 'Inimeste arv on kohustuslik',
+            startAtError: false,
+            startAtErrorText: 'Sõidusoovi aeg on kohustuslik',
+        }
+    }
+
+    public static initialTransportOfferValidationState(): ITransportOfferValidationProps{
+        return {
+            anyError: false,
+            availableSeatCountError: false,
+            availableSeatCountErrorText: 'Kohtade arv on kohustuslik',
+            startAtError: false,
+            startAtErrorText: 'Sõidusoovi aeg on kohustuslik',
+        }
+    }
+
+    public static initialVehicleValidationState(): IVehicleValidationProps {
+        return{
+            anyError: false,
+            numberError: false,
+            numberErrorText: "Sõiduki numbri märk on kohustuslik",
+        }
+    }
+
 
     public static initMessages(): IMessages {
         return {

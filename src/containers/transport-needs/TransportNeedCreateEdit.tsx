@@ -1,22 +1,43 @@
 import { Card, CardContent, Container } from "@mui/material";
-import { ReactElement, useCallback, useContext, useState } from "react";
+import {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import LocationCreateEdit from "../../components/LocationCreateEdit";
-import MainInfoCreateEdit from "../../components/MainInfoCreateEdit";
+import TransportNeedMainCreateEdit from "../../components/TransportNeedMainCreateEdit";
 import AddStepper from "../../components/stepper/AddStepper";
+import TransportNeedCreateEditSummary from "../../components/TransportNeedCreateEditSummary";
 import { CTransportNeeds } from "../../configuration";
 import { AppContext } from "../../context/AppContext";
 import { ILocation } from "../../dto/ILocation";
 import { ITransportNeed } from "../../dto/ITransportNeed";
 import { CreateInitialObjects } from "../../helpers/CreateInitialObjects";
+import { ValidationInitializer } from "../../helpers/ValidationInitializer";
+import {
+  locationValidation,
+  transportNeedValidation,
+} from "../../helpers/Validator";
 import { BaseService } from "../../services/BaseService";
+import { ILocationValidationProps } from "../../types/ILocationValidationProps";
+import { ITransportNeedValidationProps } from "../../types/ITransportNeedValidationProps";
 
 const steps = ["Alguskoht", "Sihtkoht", "Üldandmed", "Üle vaatamine"];
 const initialTransportNeed = CreateInitialObjects.initTransportNeed();
+const initialTransportNeedErrors =
+  ValidationInitializer.initialTransportNeedValidationState();
+const initialLocationErrors =
+  ValidationInitializer.initialLocationValidationState();
 
 const getStepItem = (
   activeStep: number,
   transportNeed: ITransportNeed,
+  startLocationErrors: ILocationValidationProps,
+  destinationtLocationErrors: ILocationValidationProps,
+  transportNeedErrors: ITransportNeedValidationProps,
   editStartLocation: (location: ILocation) => void,
   editDestinationLocation: (location: ILocation) => void,
   editTransportNeed: (transportNeed: ITransportNeed) => void
@@ -27,6 +48,7 @@ const getStepItem = (
       return (
         <LocationCreateEdit
           location={transportNeed.startLocation}
+          locationErrors={startLocationErrors}
           setLocation={editStartLocation}
         />
       );
@@ -35,16 +57,20 @@ const getStepItem = (
       return (
         <LocationCreateEdit
           location={transportNeed.destinationLocation}
+          locationErrors={destinationtLocationErrors}
           setLocation={editDestinationLocation}
         />
       );
-    default:
+    case 2:
       return (
-        <MainInfoCreateEdit
+        <TransportNeedMainCreateEdit
+          errors={transportNeedErrors}
           transportNeed={transportNeed}
           setTransportNeed={editTransportNeed}
         />
       );
+    default:
+      return <TransportNeedCreateEditSummary transportNeed={transportNeed} />;
   }
 };
 
@@ -52,35 +78,82 @@ const TransportNeedCreateEdit = () => {
   const appState = useContext(AppContext);
   const navigate = useNavigate();
 
-  if (appState.auth.token == null) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (appState.auth.token === null) {
+      navigate("/");
+    }
+  }, [appState]);
+
   const [activeStep, setActiveStep] = useState(0);
   const [transportNeed, setTransportNeed] = useState(initialTransportNeed);
+  const [transportNeedErrors, setTransportNeedErrors] = useState(
+    initialTransportNeedErrors
+  );
+  const [startLocationErrors, setStartLocationErrors] = useState(
+    initialLocationErrors
+  );
+  const [destinationLocationErrors, setDestinationLocationErrors] = useState(
+    initialLocationErrors
+  );
 
   const editStartLocation = (location: ILocation): void => {
-    console.log("set start location");
-    console.log(location);
     setTransportNeed({ ...transportNeed, startLocation: location });
-    console.log(transportNeed);
   };
 
   const editDestinationLocation = (location: ILocation): void => {
-    console.log("set destination location");
-    console.log(location);
     setTransportNeed({ ...transportNeed, destinationLocation: location });
-    console.log(transportNeed);
   };
 
   const editTransportNeed = (newTransportNeed: ITransportNeed): void => {
-    console.log("set transportneed");
     setTransportNeed(newTransportNeed);
-    console.log(newTransportNeed);
   };
+
+  const setStep = (step: number) => {
+    if (step > activeStep) {
+      switch (step - 1) {
+        case 0:
+          const startLocationValidationResult = locationValidation(
+            transportNeed.startLocation
+          );
+          setStartLocationErrors(startLocationValidationResult);
+
+          if (!startLocationValidationResult.anyError) {
+            setActiveStep(step);
+          }
+          return;
+        case 1:
+          const destinationLocationValidationResult = locationValidation(
+            transportNeed.destinationLocation
+          );
+          setDestinationLocationErrors(destinationLocationValidationResult);
+          if (!destinationLocationValidationResult.anyError) {
+            setActiveStep(step);
+          }
+          return;
+        case 2:
+          const transportNeedValidationResult =
+            transportNeedValidation(transportNeed);
+
+          setTransportNeedErrors(transportNeedValidationResult);
+          if (!transportNeedValidationResult.anyError) {
+            setActiveStep(step);
+          }
+          return;
+      }
+
+      return;
+    } else {
+      setActiveStep(step);
+    }
+  };
+
   const stepItem = useCallback(() => {
     return getStepItem(
       activeStep,
       transportNeed,
+      startLocationErrors,
+      destinationLocationErrors,
+      transportNeedErrors,
       editStartLocation,
       editDestinationLocation,
       editTransportNeed
@@ -88,6 +161,9 @@ const TransportNeedCreateEdit = () => {
   }, [
     activeStep,
     transportNeed,
+    startLocationErrors,
+    destinationLocationErrors,
+    transportNeedErrors,
     editStartLocation,
     editDestinationLocation,
     editTransportNeed,
@@ -111,7 +187,8 @@ const TransportNeedCreateEdit = () => {
             steps={steps}
             stepItem={stepItem()}
             activeStep={activeStep}
-            setActiveStep={setActiveStep}
+            setActiveStep={setStep}
+            submit={addItem}
           />
         </CardContent>
       </Card>

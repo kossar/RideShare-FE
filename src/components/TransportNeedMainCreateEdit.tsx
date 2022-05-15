@@ -4,9 +4,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from "react";
 import { ITransportNeedCreateEditProps } from "../types/ITransportNeedCreateEditProps";
+import { DateTimePicker } from "@mui/x-date-pickers";
 
-const MainInfoCreateEdit = (props: ITransportNeedCreateEditProps) => {
-  const [value, setValue] = useState<Date | null>(null);
+const TransportNeedMainCreateEdit = (props: ITransportNeedCreateEditProps) => {
   return (
     <Box
       component="form"
@@ -56,7 +56,7 @@ const MainInfoCreateEdit = (props: ITransportNeedCreateEditProps) => {
         value={props.transportNeed.description}
         onChange={(e) => props.setTransportNeed({...props.transportNeed, description: e.target.value})}
       />
-      <FormControl fullWidth>
+      {/* <FormControl fullWidth>
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
           Age
         </InputLabel>
@@ -71,9 +71,17 @@ const MainInfoCreateEdit = (props: ITransportNeedCreateEditProps) => {
           <option value={20}>Twenty</option>
           <option value={30}>Thirty</option>
         </NativeSelect>
-      </FormControl>
+      </FormControl> */}
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
+      {/* <DatePicker
+        label="Basic example"
+        value={props.transportNeed.startAt}
+        onChange={(newValue) => {
+          props.setTransportNeed({...props.transportNeed, startAt: newValue})
+        }}
+        renderInput={(params) => <TextField {...params} variant='standard'/>}
+      /> */}
+      <DateTimePicker
         label="Basic example"
         value={props.transportNeed.startAt}
         onChange={(newValue) => {
@@ -86,5 +94,5 @@ const MainInfoCreateEdit = (props: ITransportNeedCreateEditProps) => {
   );
 };
 
-export default MainInfoCreateEdit;
+export default TransportNeedMainCreateEdit;
 

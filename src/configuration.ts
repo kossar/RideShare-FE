@@ -6,5 +6,7 @@ export const CApiBaseUrl = ApiBaseUrl + CVersion;
 export const CLogin = "Account/Login";
 export const CRegister = "Account/Register";
 
-//transport needs
 export const CTransportNeeds = "TransportNeeds";
+export const CTransportOffers = "TransportOffers";
+export const CTransports = "Transports";
+export const CTransportAds = "Transports/Latest?count=";

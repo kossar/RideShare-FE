@@ -5,18 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import LocationCreateEdit from '../LocationCreateEdit';
-import VehicleCreateEdit from '../VehicleCreateEdit';
-import MainInfoCreateEdit from '../MainInfoCreateEdit';
-import { ILocation } from '../../dto/ILocation';
-import { ComponentType, Dispatch, ReactElement, SetStateAction } from 'react';
-
-export type AddSteperProps = {
-  steps: Array<string>, 
-  stepItem: JSX.Element,
-  activeStep: number,
-  setActiveStep: (step: number) => void;
-}
+import { AddSteperProps } from '../../types/AddStepperProps';
 
 export default function AddStepper(props: AddSteperProps) {
   const [skipped, setSkipped] = React.useState(new Set<number>());
@@ -88,8 +77,8 @@ export default function AddStepper(props: AddSteperProps) {
               Tagasi
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleNext}>
-              {props.activeStep === props.steps.length - 1 ? 'Lõpeta' : 'Järgmine'}
+            <Button onClick={props.activeStep === props.steps.length - 1 ? props.submit : handleNext}>
+              {props.activeStep === props.steps.length - 1 ? 'Lõpeta ja salvesta' : 'Järgmine'}
             </Button>
           </Box>
         </React.Fragment>

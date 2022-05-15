@@ -95,7 +95,7 @@ const ResponsiveAppBar = () => {
               component="div"
               sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
             >
-              RideShare
+              Tahan Küüti
             </Typography>
           </Box>
 
@@ -110,7 +110,7 @@ const ResponsiveAppBar = () => {
                 <ListItem button>
                   {/* <ListItemText primary={"RideShare"} /> */}
                   <Typography textAlign="center" variant="h6" noWrap>
-                    RideShare
+                    Tahan Küüti
                   </Typography>
                 </ListItem>
               </List>
@@ -126,7 +126,7 @@ const ResponsiveAppBar = () => {
                   <ListItemText primary="Pakkumised" />
                 </ListItem>
                 {appState.auth.token !== null ? (
-                  <ListItem button component={NavLink} to={"/"}>
+                  <ListItem button component={NavLink} to={"/plan"}>
                     <ListItemText primary="Minu plaan" />
                   </ListItem>
                 ) : null}
@@ -219,7 +219,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            RideShare
+            Tahan Küüti
           </Typography>
 
           <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
@@ -254,7 +254,7 @@ const ResponsiveAppBar = () => {
               <Button
                 key={"MinuPlaan"}
                 component={NavLink}
-                to="/"
+                to="/plan"
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
